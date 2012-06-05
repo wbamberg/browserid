@@ -1067,18 +1067,21 @@ BrowserID.User = (function() {
       //      might have fewer race conditions and do fewer network requests.
       User.checkAuthentication(function(authenticated) {
         if (authenticated) {
-          var loggedInEmail = storage.getLoggedIn(origin);
-          if (loggedInEmail !== siteSpecifiedEmail) {
-            if (loggedInEmail) {
-              User.getAssertion(loggedInEmail, origin, function(assertion) {
-                onComplete(assertion ? loggedInEmail : null, assertion);
-              }, onFailure);
+          // cleanup the identities to clear out old certs
+          User.cleanupIdentities(function() {
+            var loggedInEmail = storage.getLoggedIn(origin);
+            if (loggedInEmail !== siteSpecifiedEmail) {
+              if (loggedInEmail) {
+                User.getAssertion(loggedInEmail, origin, function(assertion) {
+                  onComplete(assertion ? loggedInEmail : null, assertion);
+                }, onFailure);
+              } else {
+                onComplete(null, null);
+              }
             } else {
-              onComplete(null, null);
+              onComplete(loggedInEmail, null);
             }
-          } else {
-            onComplete(loggedInEmail, null);
-          }
+          });
         }
         else if (onComplete) {
           onComplete(null, null);
