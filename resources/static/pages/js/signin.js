@@ -188,18 +188,17 @@ BrowserID.signIn = (function() {
       if(options && options.document) doc = options.document;
       if(options && options.winchan) winchan = options.winchan;
 
-      pageHelpers.setupEmail();
-
       self.click("#authWithPrimary", authWithPrimary);
       self.bind("#email", "change", onEmailChange);
       self.bind("#email", "keyup", onEmailChange);
+      self.bind(".store_email", "click", pageHelpers.storeCurrentEmail);
 
       sc.start.call(self, options);
 
       // If there is an email already set up in pageHelpers.setupEmail, see if
       // the email address is a primary, secondary, known or unknown.  Redirect
       // if needed.
-      if (dom.getInner("#email")) {
+      if (pageHelpers.setupEmail()) {
         self.submit(options.ready);
       }
       else {

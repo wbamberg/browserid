@@ -43,22 +43,11 @@
     equal(pageHelpers.getStoredEmail(), "testuser@testuser.com", "getStoredEmail works correctly");
   });
 
-  test("a key press in the email address field saves it", function() {
-    $("#email").val("");
-
-    pageHelpers.setStoredEmail("testuser@testuser.co");
-    pageHelpers.setupEmail();
-
-    // The fake jQuery event does not actually cause the letter to be added, we
-    // have to do that manually.
+  test("storeCurrentEmail saves the address currently stored in #email", function() {
+    pageHelpers.clearStoredEmail();
     $("#email").val("testuser@testuser.com");
-
-    var e = jQuery.Event("keyup");
-    e.which = 77; //choose the one you want
-    e.keyCode = 77;
-    $("#email").trigger(e);
-
-    equal(pageHelpers.getStoredEmail(), "testuser@testuser.com", "hitting a key updates the stored email");
+    pageHelpers.storeCurrentEmail();
+    equal(pageHelpers.getStoredEmail(), "testuser@testuser.com", "storeCurrentEmail stores the current email");
   });
 
   test("clearStoredEmail clears the email address from storage", function() {

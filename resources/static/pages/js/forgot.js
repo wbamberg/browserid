@@ -53,11 +53,10 @@ BrowserID.forgot = (function() {
   }
 
   function redirectIfNeeded(doc, ready) {
-    // email addresses are stored if the user is coming from the signin or
-    // signup page.  If no email address is stored, the user browsed here
-    // directly.  If the user browsed here directly, kick them back to the
-    // sign in page.
-    var email = pageHelpers.getStoredEmail();
+    // email addresses are stored if the user is coming from the signin page.
+    // If no email address is stored, the user browsed here directly.  If
+    // the user browsed here directly, kick them back to the signin page.
+    var email = pageHelpers.setupEmail();
     if (!email) {
       doc.location.href = "/signin";
       complete(ready);
@@ -86,8 +85,6 @@ BrowserID.forgot = (function() {
       // the content.
       redirectIfNeeded(doc, function() {
         dom.focus("form input[autofocus]");
-
-        pageHelpers.setupEmail();
 
         self.bind("form", "submit", cancelEvent(submit));
         self.click("#back", back);

@@ -28,7 +28,7 @@ BrowserID.PageHelpers = (function() {
     return storage.signInEmail.get() || "";
   }
 
-  function onEmailChange(event) {
+  function storeCurrentEmail(event) {
     var email = dom.getInner("#email");
     setStoredEmail(email);
   }
@@ -44,8 +44,7 @@ BrowserID.PageHelpers = (function() {
       if ($("#password").length) $("#password").focus();
     }
 
-    dom.bindEvent("#email", "change", onEmailChange);
-    dom.bindEvent("#email", "keyup", onEmailChange);
+    return email;
   }
 
   function getParameterByName( name ) {
@@ -154,6 +153,7 @@ BrowserID.PageHelpers = (function() {
     setStoredEmail: setStoredEmail,
     clearStoredEmail: clearStoredEmail,
     getStoredEmail: getStoredEmail,
+    storeCurrentEmail: storeCurrentEmail,
     getParameterByName: getParameterByName,
     /**
      * shows a failure screen immediately
