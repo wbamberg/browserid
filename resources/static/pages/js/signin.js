@@ -191,7 +191,7 @@ BrowserID.signIn = (function() {
       self.click("#authWithPrimary", authWithPrimary);
       self.bind("#email", "change", onEmailChange);
       self.bind("#email", "keyup", onEmailChange);
-      self.bind(".store_email", "click", pageHelpers.storeCurrentEmail);
+      self.bind(".forgot", "click", pageHelpers.storeCurrentEmail);
 
       sc.start.call(self, options);
 
